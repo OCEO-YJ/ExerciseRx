@@ -27,22 +27,17 @@ class FourthQViewController: UIViewController {
 
         questionLabel.textColor = UIColor(red: 50/255, green: 62/255, blue: 72/255, alpha: 1)
         questionLabel.font = UIFont(name: "AvenirNextCondensed-Bold", size: 20)
-        questionLabel.text = "Which of the following are barriers to activity?"
+        questionLabel.text = "Which of the following are barriers to activity? \n\n Please select all that apply"
         questionLabel.numberOfLines = 5
 
-        selectionList.items = ["lack of time", "care-giving duties", "lack of motivation", "lack of energy", "physical exertion, exercise is tiring", "exercise is fatiguing", "exercise is hard work", "too tired" ,"injury or pain",
-        "health conditions or poor health", "lack of interest, unsure how to start", "no place to exercise, none of the above"]
+        selectionList.items = ["Lack of time", "Care-Giving Duties", "Lack of Motivation", "Lack of Energy", "Physical Exertion, Exercise is tiring", "Exercise is fatiguing", "Exercise is hard work", "Too tired" ,"Injury or pain",
+        "Health conditions or Poor health", "Lack of Interest, Unsure how to start", "No place to exercise, None of the above"]
         selectionList.allowsMultipleSelection = true
 
         selectionList.addTarget(self, action: #selector(selectionChanged), for: .valueChanged)
         selectionList.setupCell = { (cell: UITableViewCell, _: Int) in
             cell.textLabel?.textColor = .gray}
         
-        let gray = UIColor(red: 50/255, green: 62/255, blue: 72/255, alpha: 1)
-        nextButton.layer.cornerRadius = 15
-        nextButton.titleLabel?.font = UIFont(name: "AvenirNextCondensed", size: 20)
-        nextButton.backgroundColor = gray
-        nextButton.setTitleColor(UIColor.white, for: .normal)
 
     
     }

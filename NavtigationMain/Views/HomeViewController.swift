@@ -28,6 +28,8 @@ class HomeViewController: UIViewController  {
     
     func setUpUIs() {
         
+        //Daily Step Count Goal toggle button
+        
         view.backgroundColor = .white
         
         let purple = UIColor(red: 51/255, green: 0/255, blue: 111/255, alpha: 1)

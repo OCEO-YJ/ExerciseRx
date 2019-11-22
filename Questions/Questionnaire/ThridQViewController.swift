@@ -23,7 +23,7 @@ class ThridQViewController: UIViewController {
 
         questionLabel.textColor = UIColor(red: 50/255, green: 62/255, blue: 72/255, alpha: 1)
         questionLabel.font = UIFont(name: "AvenirNextCondensed-Bold", size: 20)
-        questionLabel.text = "Which of the following are reasons you enjoy walking?"
+        questionLabel.text = "Which of the following are reasons you enjoy walking? \n\n Please select all that apply"
         questionLabel.numberOfLines = 5
         selectionList.items = ["Social community", "Nature and outdoors", "Improved physical health", "Improved mood", "Increased energy", "Feel less stressed", "Feel relaxed"]
         selectionList.allowsMultipleSelection = true

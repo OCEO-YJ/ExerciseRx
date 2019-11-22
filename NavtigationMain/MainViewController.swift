@@ -23,14 +23,25 @@ class MainViewController: UIViewController {
         MessageViewController.title = "Message"
         let InfoViewController = storyboard.instantiateViewController(withIdentifier: "InfoView")
         InfoViewController.title = "StudyInfo"
+        
         let ResourcesViewController = storyboard.instantiateViewController(withIdentifier: "Resources")
         ResourcesViewController.title = "Resources"
+        
+        let SettingViewController = storyboard.instantiateViewController(withIdentifier: "setting")
+        SettingViewController.title = "Setting"
 
+        
+        // Make new Setting //
+        
+        // Calendar //
+        
+        // Swipe //
         let pagingViewController = FixedPagingViewController(viewControllers: [
           HomeViewController,
           MessageViewController,
           ResourcesViewController,
-          InfoViewController
+          InfoViewController,
+          SettingViewController
         ])
         
         let purple = UIColor(red: 51/255, green: 0/255, blue: 111/255, alpha: 1)

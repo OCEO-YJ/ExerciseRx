@@ -32,8 +32,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSou
     
     @IBOutlet weak var userName: SkyFloatingLabelTextField!
     @IBOutlet weak var userBirthDate: SkyFloatingLabelTextField!
-    @IBOutlet weak var userSexType: SkyFloatingLabelTextField!
-    @IBOutlet weak var userEthnicity: SkyFloatingLabelTextField!
+//    @IBOutlet weak var userSexType: SkyFloatingLabelTextField!
+//    @IBOutlet weak var userEthnicity: SkyFloatingLabelTextField!
     @IBOutlet weak var userHeight_Feet: SkyFloatingLabelTextField!
     @IBOutlet weak var userHeight_Inches: SkyFloatingLabelTextField!
     
@@ -76,26 +76,26 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSou
         userBirthDate.placeholder = "Birth Date"
         colorChange(textField: userBirthDate)
 
-        userSexType.font = UIFont(name: "AvenirNextCondensed-UltraLight", size: 17)
-        userSexType.titleFont = UIFont(name: "AvenirNextCondensed-Bold", size: 13)
-        userSexType.placeholder = "Medical Sex"
-        colorChange(textField: userSexType)
-        
-        let pickerView = UIPickerView()
-        pickerView.delegate = self
-        pickerView.tag = 0
-        userSexType.inputView = pickerView
-        
-        
-        userEthnicity.font = UIFont(name: "AvenirNextCondensed-UltraLight", size: 17)
-        userEthnicity.titleFont = UIFont(name: "AvenirNextCondensed-Bold", size: 13)
-        userEthnicity.placeholder = "Ethnicity"
-        colorChange(textField: userEthnicity)
-        
-        let exercisePickerView = UIPickerView()
-        exercisePickerView.delegate = self
-        exercisePickerView.tag = 1
-        userEthnicity.inputView = exercisePickerView
+//        userSexType.font = UIFont(name: "AvenirNextCondensed-UltraLight", size: 17)
+//        userSexType.titleFont = UIFont(name: "AvenirNextCondensed-Bold", size: 13)
+//        userSexType.placeholder = "Medical Sex"
+//        colorChange(textField: userSexType)
+//
+//        let pickerView = UIPickerView()
+//        pickerView.delegate = self
+//        pickerView.tag = 0
+//        userSexType.inputView = pickerView
+//
+//
+//        userEthnicity.font = UIFont(name: "AvenirNextCondensed-UltraLight", size: 17)
+//        userEthnicity.titleFont = UIFont(name: "AvenirNextCondensed-Bold", size: 13)
+//        userEthnicity.placeholder = "Ethnicity"
+//        colorChange(textField: userEthnicity)
+//
+//        let exercisePickerView = UIPickerView()
+//        exercisePickerView.delegate = self
+//        exercisePickerView.tag = 1
+//        userEthnicity.inputView = exercisePickerView
 
 //        questionTwo.font = UIFont(name: "AvenirNextCondensed-UltraLight", size: 15)
 //        questionTwo.titleFont = UIFont(name: "AvenirNextCondensed-UltraLight", size: 10)
@@ -192,12 +192,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSou
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        if(pickerView.tag == 0){
-            userSexType.text = sexOption[row]
-        }
-        else{
-            userEthnicity.text = ethnicityOption[row]
-        }
+//        if(pickerView.tag == 0){
+//            userSexType.text = sexOption[row]
+//        }
+//        else{
+//            userEthnicity.text = ethnicityOption[row]
+//        }
     }
 
     func colorChange(textField: SkyFloatingLabelTextField){
