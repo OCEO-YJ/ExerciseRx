@@ -8,23 +8,46 @@
 
 import UIKit
 import UICircularProgressRing
+import CoreMotion
+import Dispatch
+
 
 class HomeViewController: UIViewController  {
-
+    @IBOutlet weak var dailyStepLabel: UILabel!
+    @IBOutlet weak var stepDailyCount: UILabel!
+    
     @IBOutlet weak var stepCountLabel: UILabel!
     @IBOutlet weak var stepsLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
     @IBOutlet weak var progressBar: UICircularProgressRing!
     
+    
+    private let activityManager = CMMotionActivityManager()
+    private let pedometer = CMPedometer()
+    private var shouldStartUpdating: Bool = false
+    private var startDate: Date? = nil
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpUIs()
-        
+        didTapStartButton()
 
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let startDate = startDate else { return }
+        updateStepsCountLabelUsing(startDate: startDate)
+    }
+
+    func didTapStartButton() {
+        shouldStartUpdating = !shouldStartUpdating
+        shouldStartUpdating ? (onStart()) : (onStop())
+    }
+
     
     func setUpUIs() {
         
@@ -33,9 +56,11 @@ class HomeViewController: UIViewController  {
         view.backgroundColor = .white
         
         let purple = UIColor(red: 51/255, green: 0/255, blue: 111/255, alpha: 1)
+//        stepCountLabel.font = UIFont(name: "AvenirNextCondensed-Bold", size: 15)
+//        stepCountLabel.textColor = purple
         stepCountLabel.font = UIFont(name: "AvenirNextCondensed-Bold", size: 15)
         stepCountLabel.textColor = purple
-        
+
         let gray = UIColor(red: 50/255, green: 62/255, blue: 72/255, alpha: 1)
         stepsLabel.font = UIFont(name: "AvenirNextCondensed-Regular", size: 15)
         stepsLabel.textColor = gray
@@ -79,4 +104,95 @@ class HomeViewController: UIViewController  {
     }
     */
 
+}
+
+extension HomeViewController {
+    private func onStart() {
+//        startButton.setTitle("Stop", for: .normal)
+        startDate = Date()
+        checkAuthorizationStatus()
+        startUpdating()
+    }
+
+    private func onStop() {
+//        startButton.setTitle("Start", for: .normal)
+        startDate = nil
+        stopUpdating()
+    }
+
+    private func startUpdating() {
+        if CMMotionActivityManager.isActivityAvailable() {
+            startTrackingActivityType()
+        } else {
+//            activityTypeLabel.text = "Not available"
+        }
+
+        if CMPedometer.isStepCountingAvailable() {
+            startCountingSteps()
+        } else {
+//            stepsCountLabel.text = "Not available"
+        }
+    }
+
+    private func checkAuthorizationStatus() {
+        switch CMMotionActivityManager.authorizationStatus() {
+        case CMAuthorizationStatus.denied:
+            onStop()
+//            activityTypeLabel.text = "Not available"
+//            stepsCountLabel.text = "Not available"
+        default:break
+        }
+    }
+
+    private func stopUpdating() {
+        activityManager.stopActivityUpdates()
+        pedometer.stopUpdates()
+        pedometer.stopEventUpdates()
+    }
+
+    private func on(error: Error) {
+        //handle error
+    }
+
+    private func updateStepsCountLabelUsing(startDate: Date) {
+        pedometer.queryPedometerData(from: startDate, to: Date()) {
+            [weak self] pedometerData, error in
+            if let error = error {
+                self?.on(error: error)
+            } else if let pedometerData = pedometerData {
+                DispatchQueue.main.async {
+                    self?.stepDailyCount.text = String(describing: pedometerData.numberOfSteps)
+                }
+            }
+        }
+    }
+
+    private func startTrackingActivityType() {
+        activityManager.startActivityUpdates(to: OperationQueue.main) {
+            [weak self] (activity: CMMotionActivity?) in
+            guard let activity = activity else { return }
+            DispatchQueue.main.async {
+                if activity.walking {
+                    self?.dailyStepLabel.text = "Walking"
+                } else if activity.stationary {
+                    self?.dailyStepLabel.text = "Stationary"
+                } else if activity.running {
+                    self?.dailyStepLabel.text = "Running"
+                } else if activity.automotive {
+                    self?.dailyStepLabel.text = "Automotive"
+                }
+            }
+        }
+    }
+
+    private func startCountingSteps() {
+        pedometer.startUpdates(from: Date()) {
+            [weak self] pedometerData, error in
+            guard let pedometerData = pedometerData, error == nil else { return }
+
+            DispatchQueue.main.async {
+                self?.stepDailyCount.text = pedometerData.numberOfSteps.stringValue
+            }
+        }
+    }
 }

@@ -37,18 +37,19 @@ class IntroViewController: UIViewController {
 
         let color = UIColor(red: 51/255, green: 0/255, blue: 111/255, alpha: 0.5)
 
-        sexSegment.indicatorViewBackgroundColor = color
+//        sexSegment.indicatorViewBackgroundColor = color
+//        sexSegment.tintColor = .black
         sexSegment.cornerRadius = 5
         
         ethnicityLabel.textColor = UIColor(red: 50/255, green: 62/255, blue: 72/255, alpha: 1)
         ethnicityLabel.font = UIFont(name: "AvenirNextCondensed-Bold", size: 20)
-        ethnicityLabel.text = "Please select the Ethnicity"
+        ethnicityLabel.text = "Please select the Ethnicity \n\n Please select all that apply"
         ethnicityLabel.numberOfLines = 5
 
         
         
         selectionList.items = ["Caucasian", "Hispanic or Latinx", "Black or African America", "Asian / Pacific Islander","Native American or American", "Indian", "Other"]
-        //selectionList.allowsMultipleSelection = true
+        selectionList.allowsMultipleSelection = true
 
         selectionList.addTarget(self, action: #selector(selectionChanged), for: .valueChanged)
         selectionList.setupCell = { (cell: UITableViewCell, _: Int) in

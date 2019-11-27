@@ -8,6 +8,7 @@
 
 import UIKit
 import fluid_slider
+import TransitionButton
 
 class SettingViewController: UIViewController {
     @IBOutlet weak var dailyGoalLabel: UILabel!
@@ -15,6 +16,8 @@ class SettingViewController: UIViewController {
     
     @IBOutlet weak var stepPercentageLabel: UILabel!
     @IBOutlet weak var stepSlider: Slider!
+    @IBOutlet weak var scheduleLabel: UILabel!
+    @IBOutlet weak var scheduleButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUIs()
@@ -30,13 +33,13 @@ class SettingViewController: UIViewController {
 
             dailySlider.attributedTextForFraction = { fraction in
                 let formatter = NumberFormatter()
-                formatter.maximumIntegerDigits = 3
+                formatter.maximumIntegerDigits = 5
                 formatter.maximumFractionDigits = 0
-                let string = formatter.string(from: (fraction * 500) as NSNumber) ?? ""
+                let string = formatter.string(from: (fraction * 10000) as NSNumber) ?? ""
                 return NSAttributedString(string: string)
             }
             dailySlider.setMinimumLabelAttributedText(NSAttributedString(string: "0"))
-            dailySlider.setMaximumLabelAttributedText(NSAttributedString(string: "500"))
+            dailySlider.setMaximumLabelAttributedText(NSAttributedString(string: "10000"))
             dailySlider.fraction = 0.5
             dailySlider.shadowOffset = CGSize(width: 0, height: 10)
             dailySlider.shadowBlur = 5
@@ -65,9 +68,27 @@ class SettingViewController: UIViewController {
         stepSlider.valueViewColor = .white
 
 
+        scheduleLabel.font = UIFont(name: "AvenirNextCondensed-Bold", size: 20)
+        scheduleLabel.text = "Schedule Adjust"
+        
+        let gray = UIColor(red: 50/255, green: 62/255, blue: 72/255, alpha: 1)
+        scheduleButton.layer.cornerRadius = 15
+        scheduleButton.titleLabel?.font = UIFont(name: "AvenirNextCondensed", size: 20)
+        scheduleButton.backgroundColor = gray
+        scheduleButton.setTitleColor(UIColor.white, for: .normal)
+
+        
 
     }
 
+    @IBAction func scheduleButton_Touch_UpInside(_ sender: TransitionButton) {
+        
+        
+        if(sender.titleLabel?.text == "Set Schedule"){
+                  sender.setTitle("Completed and Updated", for: .normal)
+                  self.performSegue(withIdentifier: "Setting_To_Time", sender: self)
+        }
+    }
     /*
     // MARK: - Navigation
 
