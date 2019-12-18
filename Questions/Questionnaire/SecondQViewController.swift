@@ -9,12 +9,16 @@
 import UIKit
 import SelectionList
 
+protocol SecondVCDelegate {
+    func getQ2(data: String)
+}
 class SecondQViewController: UIViewController {
 
     @IBOutlet weak var questionLabel: UILabel!
     
     @IBOutlet weak var selectionList: SelectionList!
-    
+    var delegate: SecondVCDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUIs() 
@@ -39,7 +43,36 @@ class SecondQViewController: UIViewController {
     }
     
     @objc func selectionChanged() {
-        print(selectionList.selectedIndexes)
+        
+        guard let number = selectionList.selectedIndex else {
+            return
+        }
+
+        var result = ""
+        
+        if number == 0{
+            result = "0"
+        }else if number == 1{
+            result = "10"
+        }else if number == 2{
+            result = "20"
+        }else if number == 3{
+            result = "30"
+        }else if number == 4{
+            result = "40"
+        }else if number == 5{
+            result = "50"
+        }else if number == 6{
+            result = "60"
+        }else if number == 7{
+            result = "90"
+        }else if number == 8{
+            result = "120"
+        }else{
+            result = "150+"
+        }
+
+        self.delegate?.getQ2(data: result)
     }
 
 

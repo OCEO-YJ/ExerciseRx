@@ -9,6 +9,8 @@
 import UIKit
 import SkyFloatingLabelTextField
 import TransitionButton
+import FirebaseAuth
+import FirebaseDatabase
 
 class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
@@ -26,14 +28,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSou
     }
     
         
-    
-    
+    var user = User()
+
     @IBOutlet weak var headerLabel: UILabel!
     
     @IBOutlet weak var userName: SkyFloatingLabelTextField!
     @IBOutlet weak var userBirthDate: SkyFloatingLabelTextField!
-//    @IBOutlet weak var userSexType: SkyFloatingLabelTextField!
-//    @IBOutlet weak var userEthnicity: SkyFloatingLabelTextField!
     @IBOutlet weak var userHeight_Feet: SkyFloatingLabelTextField!
     @IBOutlet weak var userHeight_Inches: SkyFloatingLabelTextField!
     
@@ -68,7 +68,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSou
         
         userName.font = UIFont(name: "AvenirNextCondensed-UltraLight", size: 17)
         userName.titleFont = UIFont(name: "AvenirNextCondensed-Bold", size: 13)
-        userName.placeholder = "Legal Name"
+        userName.placeholder = "Legal Name (First, Last)"
         colorChange(textField: userName)
         
         userBirthDate.font = UIFont(name: "AvenirNextCondensed-UltraLight", size: 17)
@@ -76,34 +76,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSou
         userBirthDate.placeholder = "Birth Date"
         colorChange(textField: userBirthDate)
 
-//        userSexType.font = UIFont(name: "AvenirNextCondensed-UltraLight", size: 17)
-//        userSexType.titleFont = UIFont(name: "AvenirNextCondensed-Bold", size: 13)
-//        userSexType.placeholder = "Medical Sex"
-//        colorChange(textField: userSexType)
-//
-//        let pickerView = UIPickerView()
-//        pickerView.delegate = self
-//        pickerView.tag = 0
-//        userSexType.inputView = pickerView
-//
-//
-//        userEthnicity.font = UIFont(name: "AvenirNextCondensed-UltraLight", size: 17)
-//        userEthnicity.titleFont = UIFont(name: "AvenirNextCondensed-Bold", size: 13)
-//        userEthnicity.placeholder = "Ethnicity"
-//        colorChange(textField: userEthnicity)
-//
-//        let exercisePickerView = UIPickerView()
-//        exercisePickerView.delegate = self
-//        exercisePickerView.tag = 1
-//        userEthnicity.inputView = exercisePickerView
-
-//        questionTwo.font = UIFont(name: "AvenirNextCondensed-UltraLight", size: 15)
-//        questionTwo.titleFont = UIFont(name: "AvenirNextCondensed-UltraLight", size: 10)
-//        questionTwo.placeholder = "What is the best time of day to move?"
-//        colorChange(textField: questionTwo)
-//
-//        questionTwo.addTarget(self, action: #selector(timeSelectionFunction), for: .touchDown)
-        
         userHeight_Feet.font = UIFont(name: "AvenirNextCondensed-UltraLight", size: 17)
         userHeight_Feet.titleFont = UIFont(name: "AvenirNextCondensed-Bold", size: 13)
         userHeight_Feet.placeholder = "Height (Feet)"
@@ -168,15 +140,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSou
         showDatePicker()
         
     }
-    
-//    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-//        return sexOption.count
-//    }
-    
+
     @objc func timeSelectionFunction(textField: UITextField) {
         print("myTargetFunction")
         self.performSegue(withIdentifier: "Question1_To_TimeSelection", sender: self)
-//        questionTwo.text = "Completed"
 
     }
 
@@ -191,13 +158,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-//        if(pickerView.tag == 0){
-//            userSexType.text = sexOption[row]
-//        }
-//        else{
-//            userEthnicity.text = ethnicityOption[row]
-//        }
     }
 
     func colorChange(textField: SkyFloatingLabelTextField){
@@ -280,19 +240,23 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSou
         self.view.endEditing(true)
     }
 
-    
-
-
-
 
     
     @IBAction func signInTouchUpInside(_ sender: TransitionButton) {
         sender.startAnimation() // 2: Then start the animation when the user tap the button
         let qualityOfServiceClass = DispatchQoS.QoSClass.background
         let backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
+        
+        self.user.name = self.userName.text!
+        let name = self.user.name?.components(separatedBy: ",")
+        self.user.first_name = name![0]
+        self.user.last_name = name![1]
+        self.user.birth_date = self.userBirthDate.text!
+        let height = self.userHeight_Feet.text! + "′" + self.userHeight_Inches.text!
+        self.user.height = height
+        self.user.weight = self.userWeight.text!
+        
         backgroundQueue.async(execute: {
-            
-            sleep(1) // 3: Do your networking task or background work here.
             
             DispatchQueue.main.async(execute: { () -> Void in
                 // 4: Stop the animation, here you have three options for the `animationStyle` property:
@@ -309,6 +273,16 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSou
         
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "Basic_To_Questions" {
+
+            let previewVC = segue.destination as! MainQViewController
+            
+            previewVC.user = self.user
+        }
+        
+    }
 
     
 }

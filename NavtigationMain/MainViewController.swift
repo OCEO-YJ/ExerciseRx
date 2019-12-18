@@ -8,13 +8,22 @@
 
 import UIKit
 import Parchment
+import HealthKit
+import HealthKitUI
 
 class MainViewController: UIViewController {
+    
+    let healthStore = HKHealthStore()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    self.navigationController?.navigationBar.isTranslucent = false
+        NotificationCenter.default.addObserver(forName: UIApplication.willTerminateNotification, object: nil, queue: nil) { (notification) in
+            print("app did enter background")
+
+        }
+        
+        self.navigationController?.navigationBar.isTranslucent = false
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let HomeViewController = storyboard.instantiateViewController(withIdentifier: "HomeView")
@@ -56,6 +65,32 @@ class MainViewController: UIViewController {
         
         // Do any additional setup after loading the view.
     }
+ 
+    
+
+//    func getTodaysSteps(completion: @escaping (Double) -> Void) {
+//        let stepsQuantityType = HKQuantityType.quantityType(forIdentifier: .stepCount)!
+//
+//        let now = Date()
+//        let startOfDay = Calendar.current.startOfDay(for: now)
+//        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
+//
+//        let query = HKStatisticsQuery(quantityType: stepsQuantityType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
+//            guard let result = result, let sum = result.sumQuantity() else {
+//                completion(0.0)
+//                return
+//            }
+//        
+//    
+//            completion(sum.doubleValue(for: HKUnit.count()))
+//            
+//        }
+//
+//        healthStore.execute(query)
+//    }
+
+}
+
     
 
     /*
@@ -68,4 +103,4 @@ class MainViewController: UIViewController {
     }
     */
 
-}
+

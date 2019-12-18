@@ -10,9 +10,13 @@ import UIKit
 import UICircularProgressRing
 import CoreMotion
 import Dispatch
+import BetterSegmentedControl
 
 
-class HomeViewController: UIViewController  {
+class HomeViewController: UIViewController{
+    
+    
+    @IBOutlet weak var goalView: BetterSegmentedControl!
     @IBOutlet weak var dailyStepLabel: UILabel!
     @IBOutlet weak var stepDailyCount: UILabel!
     
@@ -47,7 +51,9 @@ class HomeViewController: UIViewController  {
         shouldStartUpdating = !shouldStartUpdating
         shouldStartUpdating ? (onStart()) : (onStop())
     }
+    
 
+    
     
     func setUpUIs() {
         
@@ -85,6 +91,20 @@ class HomeViewController: UIViewController  {
         progressBar.style = .bordered(width: 0, color: .black)
         progressBar.fontColor = gray
         progressBar.font = UIFont(name: "AvenirNextCondensed-UltraLight", size: 25)!
+        
+        goalView.segments = LabelSegment.segments(withTitles: ["Daily", "Weekly", "Montly"],
+                                                  normalFont: UIFont(name: "AvenirNextCondensed-Bold", size: 13.0)!,
+                                                  selectedFont: UIFont(name: "AvenirNextCondensed-Bold", size: 13.0)!)
+
+        let color = UIColor(red: 51/255, green: 0/255, blue: 111/255, alpha: 0.5)
+//
+        goalView.setIndex(1)
+        goalView.addTarget(self,action: #selector(navigationSegmentedControlValueChanged(_:)),for: .valueChanged)
+        
+        dailyStepLabel.text = "Daily Step Goal"
+        dailyStepLabel.font = UIFont(name: "AvenirNextCondensed-Bold", size: 15)
+        dailyStepLabel.textColor = purple
+        
 
     }
     
@@ -103,6 +123,29 @@ class HomeViewController: UIViewController  {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @objc func navigationSegmentedControlValueChanged(_ sender: BetterSegmentedControl) {
+        if sender.index == 0 {
+            stepCountLabel.text = "Daily Step Count"
+            stepsLabel.text = "1,430 Steps"
+            dateLabel.text = "September 20"
+//            progressBar.startProgress(to: 20, duration: 2.0)
+
+        } else if sender.index == 1{
+            stepCountLabel.text = "Weekly Step Count"
+            stepsLabel.text = "7,430 Steps"
+            dateLabel.text = "September 20 - 27"
+            progressBar.startProgress(to: 70, duration: 2.0)
+
+        } else{
+            stepCountLabel.text = "Monthly Step Count"
+            stepsLabel.text = "11,430 Steps"
+            dateLabel.text = "September - October"
+            progressBar.startProgress(to: 50, duration: 2.0)
+
+
+        }
+    }
 
 }
 
@@ -122,7 +165,7 @@ extension HomeViewController {
 
     private func startUpdating() {
         if CMMotionActivityManager.isActivityAvailable() {
-            startTrackingActivityType()
+//            startTrackingActivityType()
         } else {
 //            activityTypeLabel.text = "Not available"
         }
@@ -161,29 +204,34 @@ extension HomeViewController {
                 self?.on(error: error)
             } else if let pedometerData = pedometerData {
                 DispatchQueue.main.async {
-                    self?.stepDailyCount.text = String(describing: pedometerData.numberOfSteps)
+                    var stepcount = "\(pedometerData.numberOfSteps) / 2000"
+                    self?.stepDailyCount.text = stepcount
+                    var progress = (pedometerData.numberOfSteps.doubleValue / 200) * 100
+                    self?.progressBar.startProgress(to: CGFloat(progress), duration: 2.0)
+
+
                 }
             }
         }
     }
 
-    private func startTrackingActivityType() {
-        activityManager.startActivityUpdates(to: OperationQueue.main) {
-            [weak self] (activity: CMMotionActivity?) in
-            guard let activity = activity else { return }
-            DispatchQueue.main.async {
-                if activity.walking {
-                    self?.dailyStepLabel.text = "Walking"
-                } else if activity.stationary {
-                    self?.dailyStepLabel.text = "Stationary"
-                } else if activity.running {
-                    self?.dailyStepLabel.text = "Running"
-                } else if activity.automotive {
-                    self?.dailyStepLabel.text = "Automotive"
-                }
-            }
-        }
-    }
+//    private func startTrackingActivityType() {
+//        activityManager.startActivityUpdates(to: OperationQueue.main) {
+//            [weak self] (activity: CMMotionActivity?) in
+//            guard let activity = activity else { return }
+//            DispatchQueue.main.async {
+//                if activity.walking {
+//                    self?.dailyStepLabel.text = "Walking"
+//                } else if activity.stationary {
+//                    self?.dailyStepLabel.text = "Stationary"
+//                } else if activity.running {
+//                    self?.dailyStepLabel.text = "Running"
+//                } else if activity.automotive {
+//                    self?.dailyStepLabel.text = "Automotive"
+//                }
+//            }
+//        }
+//    }
 
     private func startCountingSteps() {
         pedometer.startUpdates(from: Date()) {
@@ -191,7 +239,13 @@ extension HomeViewController {
             guard let pedometerData = pedometerData, error == nil else { return }
 
             DispatchQueue.main.async {
-                self?.stepDailyCount.text = pedometerData.numberOfSteps.stringValue
+                var stepcount = "\(pedometerData.numberOfSteps.stringValue) / 2000"
+
+                self?.stepDailyCount.text = stepcount
+                var progress = (pedometerData.numberOfSteps.doubleValue / 200) * 100
+                self?.progressBar.startProgress(to: CGFloat(progress), duration: 2.0)
+                
+
             }
         }
     }

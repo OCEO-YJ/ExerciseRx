@@ -49,7 +49,7 @@ class SettingViewController: UIViewController {
         
         stepPercentageLabel.textColor = UIColor(red: 50/255, green: 62/255, blue: 72/255, alpha: 1)
         stepPercentageLabel.font = UIFont(name: "AvenirNextCondensed-Bold", size: 20)
-        stepPercentageLabel.text = "Step Percentage"
+        stepPercentageLabel.text = "Step Percentage (Goal)"
         
         stepSlider.attributedTextForFraction = { fraction in
             let formatter = NumberFormatter()

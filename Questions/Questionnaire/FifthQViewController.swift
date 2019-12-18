@@ -11,7 +11,8 @@ import TransitionButton
 
 class FifthQViewController: UIViewController {
     @IBOutlet weak var questionLabel: UILabel!
-    
+    var user = User()
+
     @IBOutlet weak var startButton: TransitionButton!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,7 @@ class FifthQViewController: UIViewController {
         }
     func setUpUIs() {
         
+        
         questionLabel.textColor = UIColor(red: 50/255, green: 62/255, blue: 72/255, alpha: 1)
         questionLabel.font = UIFont(name: "AvenirNextCondensed-Bold", size: 20)
         questionLabel.text = "Please indicate below when you would like to receive reminders to get up and move"
@@ -38,6 +40,9 @@ class FifthQViewController: UIViewController {
         startButton.titleLabel?.font = UIFont(name: "AvenirNextCondensed", size: 20)
         startButton.backgroundColor = gray
         startButton.setTitleColor(UIColor.white, for: .normal)
+        
+
+
 
     }
 
@@ -82,5 +87,8 @@ class FifthQViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
 
 }
+
+

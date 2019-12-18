@@ -9,6 +9,9 @@
 import UIKit
 import SelectionList
 import TransitionButton
+protocol FourthVCDelegate {
+    func getQ4(data: [String: Any])
+}
 
 class FourthQViewController: UIViewController {
 
@@ -16,6 +19,8 @@ class FourthQViewController: UIViewController {
     @IBOutlet weak var selectionList: SelectionList!
     @IBOutlet weak var nextButton: TransitionButton!
     
+    var delegate: FourthVCDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUIs() 
@@ -30,8 +35,8 @@ class FourthQViewController: UIViewController {
         questionLabel.text = "Which of the following are barriers to activity? \n\n Please select all that apply"
         questionLabel.numberOfLines = 5
 
-        selectionList.items = ["Lack of time", "Care-Giving Duties", "Lack of Motivation", "Lack of Energy", "Physical Exertion, Exercise is tiring", "Exercise is fatiguing", "Exercise is hard work", "Too tired" ,"Injury or pain",
-        "Health conditions or Poor health", "Lack of Interest, Unsure how to start", "No place to exercise, None of the above"]
+        selectionList.items = ["Lack of time", "Caregiving duties", "Lack of motivation", "Lack of energy", "Physical exertion", "Exercise is tiring", "Exercise is fatiguing", "Exercise is hard work", "Too tired" ,"Injury or pain",
+        "Health conditions or Poor health", "Lack of interest", "Unsure how to start", "No place to exercise", "None of the above"]
         selectionList.allowsMultipleSelection = true
 
         selectionList.addTarget(self, action: #selector(selectionChanged), for: .valueChanged)
@@ -43,9 +48,50 @@ class FourthQViewController: UIViewController {
     }
     
     @objc func selectionChanged() {
-        print(selectionList.selectedIndexes)
+        let reasons = reasonString(indexs: selectionList.selectedIndexes)
+        let myDict = ["reasons": reasons] as [String : Any]
+        self.delegate?.getQ4(data: myDict)
     }
+    
+    func reasonString(indexs: [Int]) -> [String] {
+        var reasons: [String] = []
 
+        for index in indexs{
+            if index == 0{
+                reasons.append("Lack of time")
+            }else if index == 1{
+                reasons.append("Caregiving duties")
+            }else if index == 2{
+                reasons.append("Lack of motivation")
+            }else if index == 3{
+                reasons.append("Lack of energy")
+            }else if index == 4{
+                reasons.append("Physical exertion")
+            }else if index == 5{
+                reasons.append("Exercise is tiring")
+            }else if index == 6{
+                reasons.append("Exercise is fatiguing")
+            }else if index == 7{
+                reasons.append("Exercise is hard work")
+            }else if index == 8{
+                reasons.append("Too tired")
+            }else if index == 9{
+                reasons.append("Injury or pain")
+            }else if index == 10{
+                reasons.append("Health conditions or Poor health")
+            }else if index == 11{
+                reasons.append("Lack of interest")
+            }else if index == 12{
+                reasons.append("Unsure how to start")
+            }else if index == 13{
+                reasons.append("No place to exercise")
+            }else{
+                reasons.append("None of the above")
+            }
+
+        }
+        return reasons
+    }
     /*
     // MARK: - Navigation
 

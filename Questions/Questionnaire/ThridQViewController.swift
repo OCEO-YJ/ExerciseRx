@@ -9,10 +9,15 @@
 import UIKit
 import SelectionList
 
+protocol ThridVCDelegate {
+    func getQ3(data: [String:Any])
+}
 class ThridQViewController: UIViewController {
 
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var selectionList: SelectionList!
+    var delegate: ThridVCDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUIs() 
@@ -35,10 +40,35 @@ class ThridQViewController: UIViewController {
     }
     
     @objc func selectionChanged() {
-        print(selectionList.selectedIndexes)
+        
+        let reasons = reasonString(indexs: selectionList.selectedIndexes)
+        let myDict = ["reasons": reasons] as [String : Any]
+        self.delegate?.getQ3(data: myDict)
+
     }
 
+    func reasonString(indexs: [Int]) -> [String] {
+        var reasons: [String] = []
 
+        for index in indexs{
+            if index == 0{
+                reasons.append("Social community")
+            }else if index == 1{
+                reasons.append("Nature and outdoors")
+            }else if index == 2{
+                reasons.append("Improved physical health")
+            }else if index == 3{
+                reasons.append("Improved mood")
+            }else if index == 4{
+                reasons.append("Increased energy")
+            }else if index == 5{
+                reasons.append("Feel less stressed")
+            }else{
+                reasons.append("Feel relaxed")            }
+
+        }
+        return reasons
+    }
     /*
     // MARK: - Navigation
 

@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>618754737639-6pessbtu2jab0bvukr60j014tkoik9ui.apps.googleusercontent.com</string>
+	<string>446981026569-jfgcj1rhl53tv29178muojn15f1n9t8o.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.618754737639-6pessbtu2jab0bvukr60j014tkoik9ui</string>
+	<string>com.googleusercontent.apps.446981026569-jfgcj1rhl53tv29178muojn15f1n9t8o</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAtyo3-iryz_tb_iyKHq8LuFZRP_AHx33o</string>
+	<string>AIzaSyDd1I2jb7sdVfBzSgAtoIawD0lw_GUNfvs</string>
 	<key>GCM_SENDER_ID</key>
-	<string>618754737639</string>
+	<string>446981026569</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>UbicompLab.ExerciseRx</string>
 	<key>PROJECT_ID</key>
-	<string>exerciserx-e36f0</string>
+	<string>test-c4020</string>
 	<key>STORAGE_BUCKET</key>
-	<string>exerciserx-e36f0.appspot.com</string>
+	<string>test-c4020.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:618754737639:ios:2e814e6546fa8879b9a942</string>
+	<string>1:446981026569:ios:db31f487df76f6611699d8</string>
 	<key>DATABASE_URL</key>
-	<string>https://exerciserx-e36f0.firebaseio.com</string>
+	<string>https://test-c4020.firebaseio.com</string>
 </dict>
 </plist>

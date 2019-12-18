@@ -9,11 +9,17 @@
 import UIKit
 import SelectionList
 
+protocol FirstVCDelegate {
+    func getQ1(data: String)
+}
 
 class FirstQViewController: UIViewController {
 
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var selectionList: SelectionList!
+    
+    var delegate: FirstVCDelegate?
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -42,7 +48,15 @@ class FirstQViewController: UIViewController {
     }
     
     @objc func selectionChanged() {
-        print(selectionList.selectedIndexes)
+        
+        guard let number = selectionList.selectedIndex else {
+            return
+        }
+        
+        
+        self.delegate?.getQ1(data: String(number))
+
     }
+
 
 }
